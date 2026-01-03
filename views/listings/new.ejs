@@ -1,26 +1,59 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WanderLust</title>
-</head>
+<% layout("/layouts/boilerplate") %>
 <body>
+    <div class="row">
+        <div class="col-md-6 offset-md-2">
+            <br><br>
     <h3>Create a New Listings</h3>
-    <form method="post" action="/listings">
-        <input type="text" name="listing[title]" placeholder="enter you title">
+    <form method="post" action="/listings" class="needs-validation" enctype="multipart/form-data" novalidate> <!-- novalidate to disable html5(browser) validation -->
+        <div class="mb-3">
+            <label for="title" class="from-label">Title</label>
+            <input type="text" name="listing[title]" placeholder="enter you title" class="form-control" required> <!-- use required to make mandatory -->
+            <div class="valid-feedback">Looks good!</div> <!-- for bootstrap validation feedback:use for below message -->
+            <div class="invalid-feedback">Please provide a valid title.</div>
+        </div>
+        
+        <div class="mb-3">
+            <label for="description" class="from-label">Description</label>
+            <textarea name="listing[description]"
+             placeholder="enter you description" 
+             class="form-control" required></textarea>
+             <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Please provide a valid description.</div>
+        </div>
+        <div class="mb-3">
+            <label for="image" class="from-label">Image URL</label>
+            <input type="text" name="listing[image]" placeholder="enter you URL/Link" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="image" class="from-label">Upload Image</label>
+            <input type="file" name="listing[image]" placeholder="enter you URL/Link" class="form-control">
+        </div>
+        <div class="row">
+            <div class="mb-3 col-md-4">
+            <label for="price" class="from-label">Price</label>
+            <input type="number" name="listing[price]" placeholder="enter you price" class="form-control" required>
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Please provide a valid price.</div>
+        </div>
+        <div class="mb-3 col-md-8">
+            <label for="country" class="from-label">Country</label>
+            <input type="text" name="listing[country]" placeholder="enter you country" class="form-control" required>
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Please provide a valid country.</div>
+        </div>
+        </div>
+        <div class="mb-3">
+            <label for="location" class="from-label">Location</label>
+            <input type="text" name="listing[location]" placeholder="enter you location" class="form-control" required>
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Please provide a valid location.</div>
+        </div>
+
         <br>
-        <input type="text" name="listing[description]" placeholder="enter you description">
-        <br>
-        <input type="text" name="listing[image]" placeholder="enter you URL/Link">
-        <br>
-        <input type="number" name="listing[price]" placeholder="enter you price">
-        <br>
-        <input type="text" name="listing[location]" placeholder="enter you location">
-        <br>
-        <input type="text" name="listing[country]" placeholder="enter you country">
-        <br>
-        <button>Add</button>
+        <button class="btn btn-dark add-btn required">Add</button>
+        <br><br>
     </form>
+    </div>
+    </div>
 </body>
 </html>

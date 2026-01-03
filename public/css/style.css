@@ -1,0 +1,69 @@
+.body{
+      font-family: "Plus Jakarta Sans", sans-serif !important;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+}
+.container{
+    flex: 1;
+}
+.navbar{
+    height: 5rem;
+    background-color: white;
+}
+.fa-compass{
+    color: rgb(238, 54, 54);
+    font-size: 2rem;
+}
+
+.nav-link{
+    color: rgb(14, 13, 13)  !important;  /*  to overpower the bootstrap css */
+}
+
+.listing-card{
+    border: none !important;
+    margin-bottom: 2rem;
+
+}
+
+.card-img-top{
+    border-radius: 1rem !important;
+    width: 100% !important;
+    object-fit: cover !important;
+}
+
+.card-body{
+    padding: 0rem  !important;
+}
+
+.listing-link{
+    text-decoration: none !important;
+    color: black !important;
+}
+/* card effect */
+.card-img-overlay:hover{
+    opacity: 0.2;
+    background-color: white;
+}
+/* new page */
+.add-btn{
+    background-color: rgb(251, 75, 75) !important;
+    border: none !important;
+    
+}
+/* Edit page */
+.edit-btn{
+    background-color: rgb(251, 75, 75) !important;
+    border: none !important;
+}
+/* show page*/
+.show-img{
+    height: 30vh;
+}
+.btns{
+    display: flex;
+}
+.show-card{
+    padding-left: 0 !important;
+    padding-right: 0 !important;    
+}
