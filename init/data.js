@@ -348,15 +348,15 @@ const sampleListings = [
     country: "Costa Rica",
   },
 ];
-const transformedListings = sampleListings.map(listing => {
-    // 1. Create a shallow copy of the original listing object
-    //    This is important so we don't modify the original 'sampleListings' data.
-    const newListing = { ...listing };
+module.exports = { data: sampleListings };
+// const transformedListings = sampleListings.map(listing => {
+//     // 1. Create a shallow copy of the original listing object
+//     //    This is important so we don't modify the original 'sampleListings' data.
+//     const newListing = { ...listing };
 
-    // 2. Overwrite the complex 'image' object with only the 'url' string.
-    newListing.image = listing.image.url;
+//     // 2. Overwrite the complex 'image' object with only the 'url' string.
+//     newListing.image = listing.image.url;
     
-    // 3. Return the new, transformed object
-    return newListing;
-});
-module.exports = { data: transformedListings };
+//     // 3. Return the new, transformed object
+//     return newListing;
+// });
