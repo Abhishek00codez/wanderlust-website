@@ -1,4 +1,5 @@
 const mongoose=require("mongoose");
+const Review = require("./review");
 
 const Schema=mongoose.Schema;
 
@@ -9,13 +10,32 @@ const listingSchema =new Schema({
     },
     description:String,
     image:{
-        type:String,
-        default:"https://www.google.com/imgres?q=image%20of%20hotel&imgurl=https%3A%2F%2Fmedia.istockphoto.com%2Fid%2F472899538%2Fphoto%2Fdowntown-cleveland-hotel-entrance-and-waiting-taxi-cab.jpg%3Fs%3D612x612%26w%3D0%26k%3D20%26c%3Drz-WSe_6gKfkID6EL9yxCdN_UIMkXUBsr67884j-X9o%3D&imgrefurl=https%3A%2F%2Fwww.istockphoto.com%2Fphotos%2Fhotel-entrance&docid=TOK3yfJcPYM19M&tbnid=3FZVsIOHBsUNpM&vet=12ahUKEwiz-fC4hM2QAxXoT2wGHQyVNjoQM3oECBkQAA..i&w=612&h=408&hcb=2&ved=2ahUKEwiz-fC4hM2QAxXoT2wGHQyVNjoQM3oECBkQAA",
-        set:(v) => v ==="" ? "https://www.google.com/imgres?q=image%20of%20hotel&imgurl=https%3A%2F%2Fmedia.istockphoto.com%2Fid%2F472899538%2Fphoto%2Fdowntown-cleveland-hotel-entrance-and-waiting-taxi-cab.jpg%3Fs%3D612x612%26w%3D0%26k%3D20%26c%3Drz-WSe_6gKfkID6EL9yxCdN_UIMkXUBsr67884j-X9o%3D&imgrefurl=https%3A%2F%2Fwww.istockphoto.com%2Fphotos%2Fhotel-entrance&docid=TOK3yfJcPYM19M&tbnid=3FZVsIOHBsUNpM&vet=12ahUKEwiz-fC4hM2QAxXoT2wGHQyVNjoQM3oECBkQAA..i&w=612&h=408&hcb=2&ved=2ahUKEwiz-fC4hM2QAxXoT2wGHQyVNjoQM3oECBkQAA":v,
+        url:String,
+        filename:String
     },
     price:Number,
     location:String,
     country:String,
+    reviews:[{
+        type:Schema.Types.ObjectId,
+        ref:"Review"
+    }],
+    owner:{
+        type:Schema.Types.ObjectId,
+        ref:"User"
+    },
+    category:{
+        type:String,
+        enum:["Apartment","House","Villa","Condo","Cabin","Cottage","Bungalow","Farmhouse","Other"],    
+    }
+});
+//middleware to delete associated reviews when a listing is deleted
+listingSchema.post("findOneAndDelete",async function(listing){
+    if(listing){
+        await Review.deleteMany({   
+        _id:{ $in: listing.reviews }
+    })  
+    }   
 });
 
 const Listing=mongoose.model("Listing",listingSchema);
