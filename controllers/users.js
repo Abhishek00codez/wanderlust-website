@@ -19,7 +19,7 @@ module.exports.signup=async(req,res)=>{
     }   
 };
 
-module.exports.renderLogin=(req,res)=>{
+module.exports.renderSignup=(req,res)=>{
     res.render("users/signup.ejs");
 }
 
