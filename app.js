@@ -37,7 +37,6 @@ async function main() {
   await mongoose.connect(MONGO_URL);
 }
 
-
 const sessionOptions={
     secret:"mysupersecretcode",
     resave:false,
