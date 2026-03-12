@@ -1,29 +1,22 @@
 <% layout("/layouts/boilerplate") %>
-<body>
-    <div class="row">
-        <div class="col-md-6 offset-md-2">
-            <br><br>
-    <h3>Login</h3>
-    <form method="post" action="/login" class="needs-validation" novalidate            
-    > <!-- novalidate to disable html5(browser) validation -->
+
+<div class="form-wrapper">
+    <h3><i class="fa-solid fa-right-to-bracket me-2" style="color:var(--primary);"></i>Log In</h3>
+    <p class="text-muted text-center mb-4">Welcome back! Enter your credentials</p>
+    <form method="post" action="/login" class="needs-validation" novalidate>
         <div class="mb-3">
-            <label for="username" class="from-label">Username</label>
-            <input type="text" name="username" placeholder="enter your username" class="form-control" required>
-            <div class="valid-feedback">Looks good!</div>
-            <div class="invalid-feedback">Please provide a valid username.</div>
+            <label for="username" class="form-label">Username</label>
+            <input type="text" name="username" placeholder="Enter your username" class="form-control" required>
+            <div class="invalid-feedback">Please provide your username.</div>
         </div>
 
         <div class="mb-3">
-            <label for="password" class="from-label">Password</label>
-            <input type="password" name="password" placeholder="enter your password" class="form-control" required>
-            <div class="valid-feedback">Looks good!</div>
-            <div class="invalid-feedback">Please provide a valid password.</div>
+            <label for="password" class="form-label">Password</label>
+            <input type="password" name="password" placeholder="Enter your password" class="form-control" required>
+            <div class="invalid-feedback">Please provide your password.</div>
         </div>
 
-        <br>
-        <button class="btn btn-dark add-btn required"> Log In</button>
-        <br><br>
+        <button class="btn add-btn w-100 mt-2">Log In</button>
+        <p class="text-center mt-3 text-muted" style="font-size:0.88rem;">Don't have an account? <a href="/signup" style="color:var(--primary);font-weight:600;">Sign Up</a></p>
     </form>
-    </div>  
-    </div>
-</body> 
+</div>

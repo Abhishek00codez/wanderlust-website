@@ -1,36 +1,28 @@
 <% layout("/layouts/boilerplate") %>
-<body>
-    <div class="row">
-        <div class="col-md-6 offset-md-2">
-            <br><br>
-    <h3>Sign Up</h3>
-    <form method="post" action="/signup" class="needs-validation" novalidate            
-    > <!-- novalidate to disable html5(browser) validation -->
+
+<div class="form-wrapper">
+    <h3><i class="fa-solid fa-user-plus me-2" style="color:var(--primary);"></i>Sign Up</h3>
+    <p class="text-muted text-center mb-4">Create your account and start exploring</p>
+    <form method="post" action="/signup" class="needs-validation" novalidate>
         <div class="mb-3">
-            <label for="username" class="from-label">Username</label>
-            <input type="text" name="username" placeholder="enter your username" class="form-control" required> <!-- use required to make mandatory -->
-            <div class="valid-feedback">Looks good!</div> <!-- for bootstrap validation feedback:use for below message -->
-            <div class="invalid-feedback">Please provide a valid username.</div>
+            <label for="username" class="form-label">Username</label>
+            <input type="text" name="username" placeholder="Choose a username" class="form-control" required>
+            <div class="invalid-feedback">Please provide a username.</div>
         </div>
-        
+
         <div class="mb-3">
-            <label for="email" class="from-label">Email</label>
-            <input type="email" name="email" placeholder="enter your email" class="form-control" required>
-            <div class="valid-feedback">Looks good!</div>
+            <label for="email" class="form-label">Email</label>
+            <input type="email" name="email" placeholder="you@example.com" class="form-control" required>
             <div class="invalid-feedback">Please provide a valid email.</div>
         </div>
 
         <div class="mb-3">
-            <label for="password" class="from-label">Password</label>
-            <input type="password" name="password" placeholder="enter your password" class="form-control" required>
-            <div class="valid-feedback">Looks good!</div>
-            <div class="invalid-feedback">Please provide a valid password.</div>
+            <label for="password" class="form-label">Password</label>
+            <input type="password" name="password" placeholder="Min 8 characters" class="form-control" minlength="8" required>
+            <div class="invalid-feedback">Password must be at least 8 characters.</div>
         </div>
 
-        <br>
-        <button class="btn btn-dark add-btn required">Sign Up</button>
-        <br><br>
+        <button class="btn add-btn w-100 mt-2">Create Account</button>
+        <p class="text-center mt-3 text-muted" style="font-size:0.88rem;">Already have an account? <a href="/login" style="color:var(--primary);font-weight:600;">Log In</a></p>
     </form>
-    </div>  
-    </div>
-</body> 
+</div>

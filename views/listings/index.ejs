@@ -4,91 +4,187 @@
         display: flex;
         flex-wrap: wrap;
         align-items: center;
+        gap: 0.3rem;
+        padding: 0.8rem 0;
+        border-bottom: 1px solid var(--border);
+        margin-bottom: 1rem;
+        overflow-x: auto;
     }
-    .filter{
+    .filter {
         text-align: center;
-        margin-right: 2rem;
-        margin-top: 1rem;
-        opacity:0.7;
+        padding: 0.5rem 0.8rem;
+        border-radius: 0.8rem;
+        opacity: 0.6;
+        transition: all 0.2s;
+        text-decoration: none;
+        color: inherit;
+        white-space: nowrap;
+        min-width: fit-content;
     }
-    .filter:hover{
-        opacity:1;
-        cursor: pointer;
+    .filter:hover, .filter.active {
+        opacity: 1;
+        color: var(--dark);
     }
-    .filter span{
-        font-size: 0.8rem;
+    .filter.active {
+        font-weight: 600;
+        border-bottom: 2px solid var(--primary);
     }
-    #tax-info{
-        display: none;
+    .filter i {
+        display: block;
+        font-size: 1.2rem;
+        margin-bottom: 0.15rem;
     }
-    .tax-toggle{
-        border: 1px solid black;
-        border-radius: 1rem;
-        height:3.5rem;
-        padding:1rem;
-        margin-left:5rem;
+    .filter span {
+        font-size: 0.72rem;
+    }
+    .tax-info { display: none; }
+    .tax-toggle {
+        border: 1px solid var(--border);
+        border-radius: 2rem;
+        padding: 0.45rem 1rem;
         display: flex;
         align-items: center;
+        font-size: 0.85rem;
+    }
+    .search-bar { flex: 1; max-width: 420px; }
+    .search-bar .form-control {
+        border-radius: 2rem 0 0 2rem;
+    }
+    .search-bar .btn {
+        border-radius: 0 2rem 2rem 0;
+    }
+    .top-controls {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0.8rem;
+        margin-bottom: 1rem;
+    }
+    .pagination .page-link { color: var(--primary); }
+    .pagination .page-item.active .page-link {
+        background-color: var(--primary);
+        border-color: var(--primary);
+        color: white;
     }
 </style>
-<body>
-    <!-- <h3>All Listings</h3> -->
-    <!-- <form method="get" action="/listings/new">
-        <button>Create New Listings</button>
-    </form> -->
-    <div id="filters">
-        <div class="filter">
-            <i class="fa-solid fa-fire"></i>
-            <span>Trending</span>
-        </div>
-        <div class="filter">
-            <i class="fa-solid fa-bed"></i>
-            <span>Rooms</span>
-        </div>
-    </div>
-</body>  
 
-<div class="tax-toggle">
-    <div class="form-check-reverse form-switch">
-        <input class="form-check-input" type="checkbox" role="switch" id="taxToggle">
-        <label class="form-check-label" for="taxToggle">Show Prices Inclusive of Taxes</label>
+<div id="filters">
+    <a href="/listings?<%= search ? 'search='+encodeURIComponent(search)+'&' : '' %>category=All" class="filter <%= category==='All' ? 'active' : '' %>">
+        <i class="fa-solid fa-border-all"></i><span>All</span>
+    </a>
+    <a href="/listings?<%= search ? 'search='+encodeURIComponent(search)+'&' : '' %>category=Apartment" class="filter <%= category==='Apartment' ? 'active' : '' %>">
+        <i class="fa-solid fa-building"></i><span>Apartment</span>
+    </a>
+    <a href="/listings?<%= search ? 'search='+encodeURIComponent(search)+'&' : '' %>category=House" class="filter <%= category==='House' ? 'active' : '' %>">
+        <i class="fa-solid fa-house"></i><span>House</span>
+    </a>
+    <a href="/listings?<%= search ? 'search='+encodeURIComponent(search)+'&' : '' %>category=Villa" class="filter <%= category==='Villa' ? 'active' : '' %>">
+        <i class="fa-solid fa-house-chimney"></i><span>Villa</span>
+    </a>
+    <a href="/listings?<%= search ? 'search='+encodeURIComponent(search)+'&' : '' %>category=Cabin" class="filter <%= category==='Cabin' ? 'active' : '' %>">
+        <i class="fa-solid fa-tree"></i><span>Cabin</span>
+    </a>
+    <a href="/listings?<%= search ? 'search='+encodeURIComponent(search)+'&' : '' %>category=Cottage" class="filter <%= category==='Cottage' ? 'active' : '' %>">
+        <i class="fa-solid fa-house-chimney-window"></i><span>Cottage</span>
+    </a>
+    <a href="/listings?<%= search ? 'search='+encodeURIComponent(search)+'&' : '' %>category=Bungalow" class="filter <%= category==='Bungalow' ? 'active' : '' %>">
+        <i class="fa-solid fa-house-user"></i><span>Bungalow</span>
+    </a>
+    <a href="/listings?<%= search ? 'search='+encodeURIComponent(search)+'&' : '' %>category=Farmhouse" class="filter <%= category==='Farmhouse' ? 'active' : '' %>">
+        <i class="fa-solid fa-tractor"></i><span>Farmhouse</span>
+    </a>
+    <a href="/listings?<%= search ? 'search='+encodeURIComponent(search)+'&' : '' %>category=Condo" class="filter <%= category==='Condo' ? 'active' : '' %>">
+        <i class="fa-solid fa-city"></i><span>Condo</span>
+    </a>
+    <a href="/listings?<%= search ? 'search='+encodeURIComponent(search)+'&' : '' %>category=Other" class="filter <%= category==='Other' ? 'active' : '' %>">
+        <i class="fa-solid fa-ellipsis"></i><span>Other</span>
+    </a>
+</div>
+
+<div class="top-controls">
+    <form action="/listings" method="get" class="search-bar">
+        <div class="input-group">
+            <input type="text" name="search" class="form-control" placeholder="Search by title, location, or country..." value="<%= search %>">
+            <% if(category !== 'All') { %>
+                <input type="hidden" name="category" value="<%= category %>">
+            <% } %>
+            <button class="btn btn-outline-dark" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </div>
+    </form>
+    <div class="tax-toggle">
+        <div class="form-check-reverse form-switch mb-0">
+            <input class="form-check-input" type="checkbox" role="switch" id="taxToggle">
+            <label class="form-check-label" for="taxToggle">Include Taxes</label>
+        </div>
     </div>
 </div>
 
-<div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
+<% if(allListings.length === 0) { %>
+    <div class="text-center mt-5 mb-5">
+        <i class="fa-solid fa-magnifying-glass" style="font-size:3rem;color:var(--border);"></i>
+        <h4 class="mt-3">No listings found</h4>
+        <p class="text-muted">Try adjusting your search or filter criteria.</p>
+        <a href="/listings" class="btn btn-primary-custom">View All Listings</a>
+    </div>
+<% } else { %>
+<div class="row row-cols-lg-3 row-cols-md-2 row-cols-1 g-4 mt-1">
     <% for(let listing of allListings){ %>
+    <div class="col">
         <a href="/listings/<%= listing._id %>" class="listing-link">
-<div class="card col listing-card">
-  <img src="<%= listing.image.url %>" 
-  class="card-img-top" 
-  alt="listing image"  
-  style="height: 20rem; object-fit: cover;">
-
-  <div class="card-img-overlay"></div>
-
-  <div class="card-body">
-    <p class="card-text">
-        <b><%= listing.title %></b> <br>
-        <%= listing.description %><br>
-        &#8377;   <%= listing.price.toLocaleString("en-IN") %>
-        <i class="tax-info">&nbsp; &nbsp; +18% GST</i>
-    </p>
-  </div>
-</div>
-</a>
+            <div class="listing-card">
+                <div class="card-img-wrapper">
+                    <img src="<%= listing.image.url %>" 
+                         class="card-img-top" 
+                         alt="<%= listing.title %>"  
+                         style="height: 18rem; object-fit: cover;" loading="lazy">
+                </div>
+                <div class="card-body mt-2">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <p class="card-title-text mb-0"><%= listing.title %></p>
+                        <% if(listing.category) { %>
+                            <span class="category-badge"><%= listing.category %></span>
+                        <% } %>
+                    </div>
+                    <p class="card-location mb-1">
+                        <i class="fa-solid fa-location-dot me-1" style="font-size:0.75rem;"></i><%= listing.location %>, <%= listing.country %>
+                    </p>
+                    <p class="card-price mb-0">
+                        &#8377; <%= listing.price.toLocaleString("en-IN") %> <span>/ night</span>
+                        <i class="tax-info" style="font-size:0.75rem;color:var(--gray);">&nbsp;+18% GST</i>
+                    </p>
+                </div>
+            </div>
+        </a>
+    </div>
     <% } %>
 </div>
+
+<% if(totalPages > 1) { %>
+<nav class="mt-4 d-flex justify-content-center">
+    <ul class="pagination">
+        <li class="page-item <%= currentPage <= 1 ? 'disabled' : '' %>">
+            <a class="page-link" href="/listings?page=<%= currentPage-1 %><%= search ? '&search='+encodeURIComponent(search) : '' %><%= category!=='All' ? '&category='+category : '' %>">&laquo;</a>
+        </li>
+        <% for(let i=1; i<=totalPages; i++) { %>
+            <li class="page-item <%= currentPage===i ? 'active' : '' %>">
+                <a class="page-link" href="/listings?page=<%= i %><%= search ? '&search='+encodeURIComponent(search) : '' %><%= category!=='All' ? '&category='+category : '' %>"><%= i %></a>
+            </li>
+        <% } %>
+        <li class="page-item <%= currentPage >= totalPages ? 'disabled' : '' %>">
+            <a class="page-link" href="/listings?page=<%= currentPage+1 %><%= search ? '&search='+encodeURIComponent(search) : '' %><%= category!=='All' ? '&category='+category : '' %>">&raquo;</a>
+        </li>
+    </ul>
+</nav>
+<% } %>
+<% } %>
 
 <script>
     let taxSwitch = document.getElementById("taxToggle");
     taxSwitch.addEventListener("click",()=>{
         let taxinfo=document.getElementsByClassName("tax-info");
-        for(info of taxinfo){
-            if(taxSwitch.checked){
-                info.style.display="inline";
-            }else{
-                info.style.display="none";
-            }
+        for(let info of taxinfo){
+            info.style.display = taxSwitch.checked ? "inline" : "none";
         }
     });
 </script>
