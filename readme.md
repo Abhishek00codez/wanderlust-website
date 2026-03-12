@@ -1,80 +1,87 @@
 # Wanderlust
 
-Wanderlust is a full-stack web application inspired by Airbnb, designed to help users discover and list unique places to stay. It allows users to create listings, upload photos, and write reviews.
+A full-stack Airbnb-inspired web application where users can discover, list, and review unique places to stay. Built with Node.js, Express, MongoDB, and EJS.
 
-## 🚀 Features
+## Features
 
-*   **Listings Management:** Users can create, read, update, and delete (CRUD) listings for accommodations.
-*   **Review System:** Users can leave ratings and reviews for listings.
-*   **User Authentication:** Secure signup and login functionality using Passport.js.
-*   **Image Upload:** Integration with Cloudinary for storing listing images.
-*   **MVC Architecture:** Follows the Model-View-Controller design pattern.
-*   **Error Handling:** Robust error handling and validation using Joi.
+- **Listings CRUD** — Create, read, update, and delete accommodation listings
+- **Image Uploads** — Cloudinary integration with client-side image preview
+- **Reviews & Ratings** — Star ratings and text reviews per listing
+- **Authentication** — Signup / login with Passport.js, password strength validation
+- **Search & Filter** — Full-text search by title/location/country, category filters, pagination
+- **Security** — Helmet headers, rate limiting, HTML sanitization, httpOnly cookies
+- **Responsive UI** — CSS design system with custom properties, mobile-first layout
 
-## 🛠️ Tech Stack
+## Tech Stack
 
-*   **Frontend:** EJS (Embedded JavaScript templates), CSS, Bootstrap
-*   **Backend:** Node.js, Express.js
-*   **Database:** MongoDB, Mongoose
-*   **Authentication:** Passport.js
-*   **Cloud Storage:** Cloudinary
-*   **Validation:** Joi
+| Layer | Technology |
+|---|---|
+| Runtime | Node.js, Express 5 |
+| Database | MongoDB, Mongoose |
+| Templates | EJS, ejs-mate |
+| Auth | Passport.js (local strategy) |
+| Storage | Cloudinary + Multer |
+| Security | Helmet, express-rate-limit, sanitize-html |
+| Sessions | connect-mongo (MongoDB-backed) |
+| Frontend | Bootstrap 5, Font Awesome, Plus Jakarta Sans |
 
-## 📂 Project Structure
+## Project Structure
 
 ```
-major/
-├── controllers/    # Logic for handling requests
-├── init/           # Database initialization scripts
-├── models/         # Mongoose schemas (Listing, Review, User)
-├── public/         # Static assets (CSS, JS, Images)
-├── routes/         # Express routes (listings, reviews, users)
-├── utils/          # Utility functions (ExpressError, wrapAsync)
-├── views/          # EJS templates
-├── app.js          # Main application entry point
-├── cloudConfig.js  # Cloudinary configuration
-├── middleware.js   # Custom middleware
-└── package.json    # Project dependencies
+├── controllers/       # Route handlers (listings, reviews, users)
+├── init/              # DB seed script and sample data
+├── models/            # Mongoose schemas (Listing, Review, User)
+├── public/            # Static assets (CSS, JS)
+├── routes/            # Express routers
+├── utils/             # ExpressError, wrapAsync helpers
+├── views/             # EJS templates, layouts, partials
+├── app.js             # Application entry point
+├── cloudConfig.js     # Cloudinary setup
+├── middleware.js       # Auth & ownership middleware
+└── schema.js          # Joi validation schemas
 ```
 
-## ⚙️ Installation & Setup
+## Quick Start
 
-1.  **Clone the repository:**
-    ```bash
-    git clone <repository-url>
-    cd major
-    ```
+```bash
+# 1. Clone
+git clone https://github.com/Abhishek00codez/wanderlust-website.git
+cd wanderlust-website
 
-2.  **Install dependencies:**
-    ```bash
-    npm install
-    ```
+# 2. Install
+npm install
 
-3.  **Configure Environment Variables:**
-    Create a `.env` file in the root directory and add the following:
-    ```env
-    CLOUD_NAME=your_cloudinary_cloud_name
-    CLOUD_API_KEY=your_cloudinary_api_key
-    CLOUD_API_SECRET=your_cloudinary_api_secret
-    ATLASDB_URL=your_mongodb_connection_string (or use local MONGO_URL)
-    SECRET=your_session_secret
-    ```
+# 3. Configure
+cp .env.example .env      # then fill in your credentials
 
-4.  **Initialize Database (Optional):**
-    If you want to seed the database with sample data:
-    ```bash
-    node init/index.js
-    ```
+# 4. Seed (optional)
+node init/index.js
 
-5.  **Run the Application:**
-    ```bash
-    node app.js
-    ```
+# 5. Run
+npm start                  # http://localhost:8080
+```
 
-6.  **Access the App:**
-    Open your browser and go to `http://localhost:8080`.
+### Environment Variables
 
-## 🏗️ Architecture
+| Variable | Required | Description |
+|---|---|---|
+| `CLOUD_NAME` | Yes | Cloudinary cloud name |
+| `CLOUD_API_KEY` | Yes | Cloudinary API key |
+| `CLOUD_API_SECRET` | Yes | Cloudinary API secret |
+| `MONGO_URL` | No | MongoDB connection string (defaults to localhost) |
+| `SESSION_SECRET` | No | Session encryption secret (defaults to fallback) |
+| `PORT` | No | Server port (defaults to 8080) |
+
+## Deployment (Render)
+
+1. Push to GitHub.
+2. Create a **Web Service** on [Render](https://render.com).
+3. Set **Build Command**: `npm install`
+4. Set **Start Command**: `npm start`
+5. Add all environment variables from the table above.
+6. Set `MONGO_URL` to your **MongoDB Atlas** connection string.
+
+## Architecture
 
 ```mermaid
 graph TD
