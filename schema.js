@@ -8,6 +8,7 @@ module.exports.listingSchema = Joi.object({
         price: Joi.number().required().min(0),
         location: Joi.string().required(),
         country: Joi.string().required(),
+        category: Joi.string().valid('Apartment','House','Villa','Condo','Cabin','Cottage','Bungalow','Farmhouse','Other').required(),
     }).required()
 });
 

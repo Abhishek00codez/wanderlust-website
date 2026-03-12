@@ -1,7 +1,41 @@
 const Listing=require("../models/listing.js");
+
+const CATEGORIES=["Apartment","House","Villa","Condo","Cabin","Cottage","Bungalow","Farmhouse","Other"];
+
 module.exports.index=async (req,res) => {
-   const allListings=await Listing.find({});
-   res.render("listings/index.ejs",{allListings});
+   const {page=1,search,category}=req.query;
+   const limit=9;
+   const filter={};
+
+   if(search){
+       const searchRegex=new RegExp(search.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'i');
+       filter.$or=[
+           {title:searchRegex},
+           {location:searchRegex},
+           {country:searchRegex},
+       ];
+   }
+
+   if(category && category!=="All"){
+       filter.category=category;
+   }
+
+   const totalListings=await Listing.countDocuments(filter);
+   const totalPages=Math.ceil(totalListings/limit) || 1;
+   const currentPage=Math.min(Math.max(parseInt(page)||1,1),totalPages);
+
+   const allListings=await Listing.find(filter)
+       .skip((currentPage-1)*limit)
+       .limit(limit);
+
+   res.render("listings/index.ejs",{
+       allListings,
+       currentPage,
+       totalPages,
+       search:search||'',
+       category:category||'All',
+       categories:CATEGORIES,
+   });
 };
 module.exports.renderNewForm=(req,res)=>{
     res.render("listings/new.ejs");
@@ -44,9 +78,9 @@ module.exports.editListing=async (req,res)=>{
         req.flash("error","Cannot find that listing");
         return res.redirect("/listings");
     }
-    let orginalImageurl=listing.image.url;
-    originalImageurl=orginalImageurl.replace("/upload","/upload/w_250"); //resizing image using cloudinary
-    res.render("listings/edit.ejs",{listing,originalImageurl});
+    let originalImageUrl = listing.image.url;
+    originalImageUrl = originalImageUrl.replace("/upload", "/upload/w_250");
+    res.render("listings/edit.ejs", { listing, originalImageUrl });
 };
 
 module.exports.updateListing=async (req,res)=>{

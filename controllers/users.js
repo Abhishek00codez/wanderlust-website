@@ -1,12 +1,15 @@
 const User = require("../models/user.js");
 
-module.exports.signup=async(req,res)=>{
+module.exports.signup=async(req,res,next)=>{
     try{
         const {username,email,password}=req.body;
+        if (password.length < 8) {
+            req.flash("error", "Password must be at least 8 characters long");
+            return res.redirect("/signup");
+        }
         const user=new User({username,email});
-        const newUser=await User.register(user,password);   
-        console.log(newUser);
-        req.login(newUser,(err)=>{  //to log in user after sign up
+        const newUser=await User.register(user,password);
+        req.login(newUser,(err)=>{
             if(err){
                 return next(err);
             }
@@ -32,8 +35,8 @@ module.exports.login=async(req,res)=>{
     res.redirect(res.locals.redirectUrl || "/listings"); //   || "/listings" is a default redirect if redirectUrl is not set(e.g., user directly goes to /login)
 }
 
-module.exports.logout=(req,res)=>{
-    req.logout((err)=>{   //req.logout take a callback function as parameter
+module.exports.logout=(req,res,next)=>{
+    req.logout((err)=>{
         if(err){
             return next(err);
         }

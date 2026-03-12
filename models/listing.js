@@ -29,6 +29,9 @@ const listingSchema =new Schema({
         enum:["Apartment","House","Villa","Condo","Cabin","Cottage","Bungalow","Farmhouse","Other"],    
     }
 });
+
+listingSchema.index({title:"text",location:"text",country:"text"});
+listingSchema.index({category:1});
 //middleware to delete associated reviews when a listing is deleted
 listingSchema.post("findOneAndDelete",async function(listing){
     if(listing){

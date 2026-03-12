@@ -1,2 +1,7 @@
 node_modules/
 .env
+uploads/
+
+PHASE1_CHEATSHEET.md
+PHASE2_CHEATSHEET.md
+PHASE3_CHEATSHEET.md
